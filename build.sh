@@ -1,3 +1,3 @@
 cd hello
-zip -9 -r ../hello.zip .
+zip -9 -r ../wnyc.zip .
 cd -
