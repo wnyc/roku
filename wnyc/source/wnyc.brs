@@ -1,50 +1,49 @@
-REM ******************************************************
-REM
-REM FetchStreams
-REM
-REM GET streams API and return data
-REM
-REM ******************************************************
-Function FetchStreams()
-    responsePort = CreateObject("roMessagePort")
-    request = CreateObject("roUrlTransfer")
-    request.SetMessagePort(responsePort)
-    request.SetUrl("http://www.wnyc.org/api/v1/list/streams/")
-    success = request.AsyncGetToString()
+' *********
+'
+'   New York Public Radio. 
+'   Main Screen/Entry Point. 
+'
+' *********
 
-    if (not success) then
-        print request.GetFailureReason()
-        return false
-    endif
+Function Main()
+    port = CreateObject("roMessagePort")
+    grid = CreateObject("roGridScreen")
+    grid.SetMessagePort(port)
 
-    event = wait(0, responsePort)
-    if (type(event) = "roUrlEvent")
-        streamsJSON = ParseJSON(event.GetString())
-        return streamsJSON
-    else
-        print "Didn't receive roUrlEvent when fetching streams"
-        return false
-    endif
+    InitTheme()
+    grid.SetGridStyle("four-column-flat-landscape") 
+    grid.SetDisplayMode("scale-to-fit")
+
+    rowTitles  = ["On Air Now",]
+    liveStations = ["wnyc-fm939", "wqxr", "jonathan-channel", "q2", "njpr"]
+    
+    grid.SetupLists(rowTitles.Count())
+    grid.SetListNames(rowTitles)
+    
+    grid.SetDescriptionVisible(true)
+    grid.SetFocusedListItem(0, 3) 
+
+    streams  = fetchStreams(liveStations)
+    streams.Push("") ' Empty Item will create a blank poster to show the end of the list.
+    grid.SetContentList(0, streams)
+
+    grid.Show()
+    
+    while true
+         msg = wait(0, grid.GetMessagePort())
+         if type(msg) = "roGridScreenEvent" then
+             if msg.isScreenClosed() then
+                 return -1
+             elseif msg.isListItemFocused()
+                 print "Focused msg: ";msg.GetMessage();"row: ";msg.GetIndex();
+                 print " col: ";msg.GetData()
+             elseif msg.isListItemSelected()
+                 print "Selected msg: ";msg.GetMessage();"row: ";msg.GetIndex();
+                 print " col: ";msg.GetData()
+                 selected = msg.GetData()
+                 print selected
+                 Show_Audio_Screen(streams[selected], "")
+             endif
+         endif
+     end while
 End Function
-
-
-
-' *********************************************************
-' ** WNYC Stream Player
-' *********************************************************
-Sub Main()
-    screen = CreateObject("roParagraphScreen")
-    screen.SetTitle("Loading")
-    screen.AddParagraph("Fetching streams list")
-    screen.Show()
-    streams = FetchStreams()
-    if (not streams) then
-        print "Streams failed to fetch"
-        return
-    else
-        print "Fetched streams"
-        For Each stream In streams
-            screen.AddParagraph(stream.name)
-        End For
-    endif
-End Sub
