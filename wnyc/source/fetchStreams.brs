@@ -5,7 +5,6 @@
 ' ***************
 
 Function FetchStreams(list as Object)
-    l = list
     responsePort = CreateObject("roMessagePort")
     request = CreateObject("roUrlTransfer")
     request.SetMessagePort(responsePort)
@@ -21,7 +20,7 @@ Function FetchStreams(list as Object)
     event = wait(0, responsePort)
     if (type(event) = "roUrlEvent")
         streamsJSON = ParseJSON(event.GetString())
-        formatedMeta = makeMeta(l, streamsJSON) 
+        formatedMeta = makeMeta(list, streamsJSON) 
         return formatedMeta 
     else
         print "Didn't receive roUrlEvent when fetching streams"
