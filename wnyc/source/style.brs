@@ -2,7 +2,7 @@
 Function InitTheme() as void
     app = CreateObject("roAppManager")
     listItemHighlight           = "#FFFFFF"
-    listItemText                = "#707070"
+    listItemText		= "#F0F8FF"
     backgroundColor             = "#333333"
     theme = {
         BackgroundColor: "#333333" 

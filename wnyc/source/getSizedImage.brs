@@ -1,8 +1,7 @@
-function sizeImage (x as Integer, y as Integer, url as string) as Object
-    r = CreateObject("roRegex", "/+", "")
-    i = r.Split(url)
-    image = i[i.Count() - 1]
-    imageUrl = "http://www.wnyc.org/i/"+x+"/"+y+"/c/80/1/"+image
-    print  imageUrl
+function getSizedImageUrl (x as String, y as String, url as string) as Object
+    r = CreateObject("roRegex", "www.wnyc.org/i/(\d+\/(d+)/", "")
+    imageUrl = r.Replace(url, "x/y")
+    'image = i[i.Count() - 1]
+    print imageUrl
     return imageUrl
 End Function  

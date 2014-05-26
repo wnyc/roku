@@ -34,20 +34,22 @@ Sub getMeta(list as Object, streams_json as Object, whats_on_json as Object) as 
     tempMeta    = CreateObject("roArray", 20, true)
 
     for Each show in list 
-        for Each i in streams_json.results
-            if i.slug = show
+        for Each stream in streams_json.results
+            
+            if stream.slug = show
                 s = CreateObject("roAssociativeArray") 
-                s.Title = i.name
-                s.ShortDescriptionLine1 = i.short_description
-                s.ContentType = "audio"
+                's.Title	       = stream.Name
+                s.Title        = whats_on_json[show].current_show.title
+                s.ShortDescriptionLine1 = stream.short_description
+                s.ContentType  = "audio"
                 s.StreamFormat = "mp3"
-                s.HDPosterUrl  = i.image_logo ' Need function to parse out the image file name.
-                s.SDPosterUrl  = i.image_logo
-                s.StreamUrls   = [ i.mp3_streams, ]
-                print i.mp3_streams
-                s.Position     = i.site_priority 
-                s.Slug         = i.slug
+                s.HDPosterUrl  = stream.image_logo 
+                s.SDPosterUrl  = stream.image_logo
+                s.StreamUrls   = [ stream.mp3_streams, ]
+                s.Position     = stream.site_priority 
+                s.Slug         = stream.slug
                 s.Description  = whats_on_json[show].current_show.description
+                s.ShowTitle    = whats_on_json[show].current_show.show_title
                 s.showHDPosterUrl  = whats_on_json[show].current_show.fullImage.url    
                 tempMeta.Push(s)
            End If

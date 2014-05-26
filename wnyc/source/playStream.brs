@@ -4,13 +4,16 @@
 
 Sub Show_Audio_Screen(song as Object, prevLoc as string)
     Audio = AudioInit() 
+    print song.showHDPosterUrl
+'    picture = getSizedImageUrl("188", "188", song.showHDPosterUrl)
     picture = song.showHDPosterUrl
     print "picture at:"; picture
 
     o = CreateObject("roAssociativeArray")
     o.HDPosterUrl = picture
     o.SDPosterUrl = picture
-    o.Title = song.shortdescriptionline1
+    'o.Title = song.shortdescriptionline1
+    o.Title  = song.Title
     o.Description = song.Description
     o.contenttype = "episode"
 
