@@ -23,6 +23,7 @@ Function Main()
     grid.SetDescriptionVisible(true)
     grid.SetFocusedListItem(0, 3) 
 
+    streams  = CreateObject("roArray")
     streams  = fetchStreams(liveStations)
     streams.Push("") ' Empty Item will create a blank poster to show the end of the list.
     grid.SetContentList(0, streams)

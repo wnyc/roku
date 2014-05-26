@@ -3,15 +3,15 @@
 ' **************
 
 Sub Show_Audio_Screen(song as Object, prevLoc as string)
-    Audio = AudioInit()
-    picture = song.HDPosterUrl
+    Audio = AudioInit() 
+    picture = song.showHDPosterUrl
     print "picture at:"; picture
 
     o = CreateObject("roAssociativeArray")
     o.HDPosterUrl = picture
     o.SDPosterUrl = picture
     o.Title = song.shortdescriptionline1
-    o.Description = song.shortdescriptionline2
+    o.Description = song.Description
     o.contenttype = "episode"
 
     scr = create_springboard(Audio.port, prevLoc)
@@ -187,4 +187,3 @@ Function audioPlayer_getmsg(timeout as Integer, escape as String) As Object
 	    ' eat all other messages
 	end while
 End Function
-
