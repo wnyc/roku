@@ -12,19 +12,19 @@ Function Main()
 
     InitTheme()
 
-'    grid.SetGridStyle("four-column-flat-landscape") 
-    grid.SetGridStyle("flat-portrait") 
+    grid.SetGridStyle("four-column-flat-landscape") 
+'    grid.SetGridStyle("flat-portrait") 
     grid.SetDisplayMode("scale-to-fit")
 
     rowTitles  = ["On Air Now",]
-    liveStations = ["jonathan-channel", "wqxr", "wnyc-fm939", "q2", "njpr"]
+    liveStations = ["wnyc-fm939", "wqxr", "njpr", "jonathan-channel", "q2",]
     
     grid.SetupLists(rowTitles.Count())
     grid.SetListNames(rowTitles)
     
     grid.SetDescriptionVisible(true)
-'    grid.SetFocusedListItem(0, 3) 
-    grid.SetFocusedListItem(0, 1) 
+    grid.SetFocusedListItem(0, 3) 
+'    grid.SetFocusedListItem(0, 1) 
 
     streams  = CreateObject("roArray")
     streams  = fetchStreams(liveStations)
