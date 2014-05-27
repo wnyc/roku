@@ -11,25 +11,27 @@ Function Main()
     grid.SetMessagePort(port)
 
     InitTheme()
-    grid.SetGridStyle("four-column-flat-landscape") 
+
+'    grid.SetGridStyle("four-column-flat-landscape") 
+    grid.SetGridStyle("flat-portrait") 
     grid.SetDisplayMode("scale-to-fit")
 
     rowTitles  = ["On Air Now",]
-    liveStations = ["wnyc-fm939", "wqxr", "jonathan-channel", "q2", "njpr"]
+    liveStations = ["jonathan-channel", "wqxr", "wnyc-fm939", "q2", "njpr"]
     
     grid.SetupLists(rowTitles.Count())
     grid.SetListNames(rowTitles)
     
     grid.SetDescriptionVisible(true)
-    grid.SetFocusedListItem(0, 3) 
+'    grid.SetFocusedListItem(0, 3) 
+    grid.SetFocusedListItem(0, 1) 
 
     streams  = CreateObject("roArray")
     streams  = fetchStreams(liveStations)
-    streams.Push("") ' Empty Item will create a blank poster to show the end of the list.
+    streams.Push("") ' Empty Item will create a blank poster to show the end of the list. 
     grid.SetContentList(0, streams)
+    grid.Show() 
 
-    grid.Show()
-    
     while true
          msg = wait(0, grid.GetMessagePort())
          if type(msg) = "roGridScreenEvent" then

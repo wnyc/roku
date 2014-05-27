@@ -38,8 +38,13 @@ Sub getMeta(list as Object, streams_json as Object, whats_on_json as Object) as 
             
             if stream.slug = show
                 s = CreateObject("roAssociativeArray") 
-                's.Title	       = stream.Name
-                s.Title        = whats_on_json[show].current_show.title
+                
+                 if (whats_on_json[show].current_show.show_title = invalid ) 
+                    s.Title    = stream.Name
+                else                
+                    s.Title    = whats_on_json[show].current_show.show_title
+                End If
+                
                 s.ShortDescriptionLine1 = stream.short_description
                 s.ContentType  = "audio"
                 s.StreamFormat = "mp3"
@@ -50,7 +55,8 @@ Sub getMeta(list as Object, streams_json as Object, whats_on_json as Object) as 
                 s.Slug         = stream.slug
                 s.Description  = whats_on_json[show].current_show.description
                 s.ShowTitle    = whats_on_json[show].current_show.show_title
-                s.showHDPosterUrl  = whats_on_json[show].current_show.fullImage.url    
+              '  s.showHDPosterUrl  = whats_on_json[show].current_show.fullImage.url    
+                s.showHDPosterUrl  = whats_on_json[show].current_show.group_image    
                 tempMeta.Push(s)
            End If
         End For 
